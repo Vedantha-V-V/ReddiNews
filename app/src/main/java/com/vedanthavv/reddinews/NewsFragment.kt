@@ -34,20 +34,19 @@ class NewsFragment : Fragment() {
         val newsList = view.findViewById<RecyclerView>(R.id.news_list)
         newsList.layoutManager = LinearLayoutManager(requireContext())
 
-        // 2) Prepare dummy data
-        val dummy = listOf(
+
+        val startData = listOf(
             NewsItem(
                 title = "Fetching in Progress..",
                 url = "",
-                imageUrl = "https://picsum.photos/id/237/200/200",
+                imageUrl = "${R.string.default_thumbnail}",
                 subreddit = "r/loading",
                 comments = 69,
-                publishedAt = (System.currentTimeMillis() / 1000) - 3600 // 1 hour ago
+                publishedAt = (System.currentTimeMillis() / 1000) - 3600
             )
         )
 
-        // start with dummy data, adapter is updatable
-        val adapter = NewsAdapter(dummy, onItemClicked = { news: NewsItem ->
+        val adapter = NewsAdapter(startData, onItemClicked = { news: NewsItem ->
             val redditIntent = Intent(Intent.ACTION_VIEW,Uri.parse("${news.url}"));
             startActivity(redditIntent)
         })
