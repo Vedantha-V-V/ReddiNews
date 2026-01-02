@@ -1,5 +1,7 @@
 package com.vedanthavv.reddinews
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -35,37 +37,19 @@ class NewsFragment : Fragment() {
         // 2) Prepare dummy data
         val dummy = listOf(
             NewsItem(
-                title = "SpaceX launches new satellite",
-                description = "SpaceX successfully launched a new communications satellite into orbit.",
-                url = "https://example.com/spacex",
+                title = "Fetching in Progress..",
+                url = "",
                 imageUrl = "https://picsum.photos/id/237/200/200",
-                author = "Jane Doe",
-                comments = 120,
+                subreddit = "r/loading",
+                comments = 69,
                 publishedAt = (System.currentTimeMillis() / 1000) - 3600 // 1 hour ago
-            ),
-            NewsItem(
-                title = "Local Startup raises Series A",
-                description = "A local startup raised funds to expand its product offerings.",
-                url = "https://example.com/startup",
-                imageUrl = "https://picsum.photos/id/238/200/200",
-                author = "John Smith",
-                comments = 45,
-                publishedAt = (System.currentTimeMillis() / 1000) - 7200 // 2 hours ago
-            ),
-            NewsItem(
-                title = "City Marathon draws thousands",
-                description = "Runners from across the country participated in the annual city marathon.",
-                url = "https://example.com/marathon",
-                imageUrl = "https://picsum.photos/id/239/200/200",
-                author = "Alex Lee",
-                comments = 8,
-                publishedAt = (System.currentTimeMillis() / 1000) - 86400 // 1 day ago
             )
         )
 
         // start with dummy data, adapter is updatable
         val adapter = NewsAdapter(dummy, onItemClicked = { news: NewsItem ->
-            Toast.makeText(requireContext(), "Clicked: ${news.title}", Toast.LENGTH_SHORT).show()
+            val redditIntent = Intent(Intent.ACTION_VIEW,Uri.parse("${news.url}"));
+            startActivity(redditIntent)
         })
         newsList.adapter = adapter
 
@@ -81,11 +65,10 @@ class NewsFragment : Fragment() {
                     val items = children.map { child ->
                         val data = child.data
                         NewsItem(
-                            title = data.title,
-                            description = data.title, // reddit has no separate description; use title as placeholder
+                            title = if(data.title.length > 50) data.title.substring(0, 50) + "..." else data.title,
                             url = data.url,
-                            imageUrl = if (data.thumbnail.startsWith("http")) data.thumbnail else "",
-                            author = data.author,
+                            imageUrl = if (data.thumbnail.startsWith("http")) data.thumbnail else "${R.string.default_thumbnail}",
+                            subreddit = "r/${data.subreddit}",
                             comments = data.num_comments,
                             publishedAt = data.created
                         )

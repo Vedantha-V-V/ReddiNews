@@ -3,4 +3,5 @@
     <string name="comments_count">%1$d comments</string>
     <string name="top_posts">Top Posts</string>
     <string name="news_thumbnail">News thumbnail</string>
+    <string name="default_thumbnail">https://ttrockstars.com/wp-content/plugins/elementor/assets/images/placeholder.png</string>
 </resources>

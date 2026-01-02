@@ -13,8 +13,8 @@ class NewsAdapter(private var items: List<NewsItem>,
                   private val onItemClicked: (NewsItem) -> Unit) : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
     class NewsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvDescription: TextView = itemView.findViewById(R.id.description)
-        val tvAuthor: TextView = itemView.findViewById(R.id.author)
+        val tvTitle: TextView = itemView.findViewById(R.id.title)
+        val tvSubreddit: TextView = itemView.findViewById(R.id.subreddit)
         val tvComments: TextView = itemView.findViewById(R.id.comments)
         val tvTime: TextView = itemView.findViewById(R.id.time)
         val imgThumbnail: ImageView = itemView.findViewById(R.id.img_thumbnail)
@@ -27,8 +27,8 @@ class NewsAdapter(private var items: List<NewsItem>,
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         val news = items[position]
-        holder.tvDescription.text = news.title
-        holder.tvAuthor.text = news.author
+        holder.tvTitle.text = news.title
+        holder.tvSubreddit.text = news.subreddit
         // Use a translatable string resource for comment count
         holder.tvComments.text = holder.itemView.context.getString(R.string.comments_count, news.comments)
         holder.tvTime.text = news.publishedAt.getFriendlyTime()
